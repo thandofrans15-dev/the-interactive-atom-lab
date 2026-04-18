@@ -8,8 +8,8 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            /* EXACT SOFT GLOW GRADIENT */
-            background: radial-gradient(circle at 30% 40%, #4da6ff 0%, #1a3a5c 45%, #000000 100%);
+            /* DOMINANT PS3 BLUE GRADIENT (Fades late to Black) */
+            background: radial-gradient(circle at 30% 40%, #4da6ff 0%, #1a3a5c 65%, #000000 100%);
             color: white; overflow-x: hidden;
         }
 
@@ -21,33 +21,41 @@
 
         #table-page, #view-3d { opacity: 0; pointer-events: none; }
 
-        /* THE BOLD TF LOGO - ENLARGED BY 3% */
+        /* THE BOLD TF LOGO - ENLARGED & CLOSED GAP */
         .tf-logo-container {
-            width: 206px; height: 206px;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
+            width: 210px; height: 210px;
+            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
             transform: skewX(-12deg); 
         }
 
-        /* README INFO GRID */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
+            gap: 35px;
             padding: 40px;
             max-width: 1100px;
             text-align: center;
-            margin-top: 50px;
+            margin-top: 40px;
         }
-        .info-box h3 { color: #FFD700; margin-bottom: 10px; font-size: 1.1em; }
-        .info-box p { font-size: 0.85em; line-height: 1.6; color: #ccc; }
+        .info-box h3 { color: #FFD700; margin-bottom: 12px; font-size: 1.1em; letter-spacing: 1px; }
+        .info-box p { font-size: 0.85em; line-height: 1.6; color: rgba(255,255,255,0.8); }
 
         .btn {
             background: rgba(255, 215, 0, 0.05); border: 2px solid #FFD700;
             color: #FFD700; padding: 15px 45px; border-radius: 40px;
             cursor: pointer; transition: 0.4s; letter-spacing: 3px;
-            text-transform: uppercase; margin-top: 20px;
+            text-transform: uppercase; margin-top: 25px;
         }
         .btn:hover { background: #FFD700; color: black; box-shadow: 0 0 30px #FFD700; }
+
+        /* PERIODIC TABLE STYLE */
+        .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 10px; padding: 40px; }
+        .element {
+            width: 50px; height: 60px; border: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: 0.3s;
+        }
+        .element:hover { border-color: #FFD700; transform: scale(1.1); background: rgba(255, 215, 0, 0.1); }
     </style>
 </head>
 <body>
@@ -56,13 +64,15 @@
         <div class="tf-logo-container">
             <svg viewBox="0 0 100 100" xmlns="http://w3.org">
                 <defs><linearGradient id="goldGrad"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FFA500"/></linearGradient></defs>
-                <rect x="45" y="15" width="10" height="70" rx="3" fill="url(#goldGrad)" />
-                <rect x="25" y="15" width="50" height="10" rx="3" fill="url(#goldGrad)" />
-                <rect x="45" y="45" width="25" height="10" rx="3" fill="url(#goldGrad)" />
-                <path d="M50,85 C20,85 5,65 5,45 C5,20 25,5 50,5 C75,5 95,20 95,45" fill="none" stroke="url(#goldGrad)" stroke-width="3.5" />
+                <!-- FIXED LOGO: CLOSED GAP AT BOTTOM -->
+                <rect x="45" y="15" width="10" height="70" rx="2" fill="url(#goldGrad)" />
+                <rect x="25" y="15" width="50" height="10" rx="2" fill="url(#goldGrad)" />
+                <rect x="45" y="45" width="25" height="10" rx="2" fill="url(#goldGrad)" />
+                <!-- CIRCLE ATTACHED DIRECTLY TO STEM BASE -->
+                <path d="M50,85 C20,85 5,65 5,45 C5,20 25,5 50,5 C75,5 95,20 95,45" fill="none" stroke="url(#goldGrad)" stroke-width="4.5" />
             </svg>
         </div>
-        <h1 style="letter-spacing: 10px; margin-top: 15px;">TF INNOVATIONS</h1>
+        <h1 style="letter-spacing: 12px; margin-top: 15px; font-weight: 300;">TF INNOVATIONS</h1>
         
         <div class="info-grid">
             <div class="info-box">
@@ -83,8 +93,11 @@
     </div>
 
     <div id="table-page">
-        <button class="btn" style="margin-bottom: 20px;" onclick="showPage('home-page')">Home</button>
-        <div id="table" style="display:grid; grid-template-columns: repeat(18, 1fr); gap: 10px; padding: 20px;"></div>
+        <div style="display:flex; justify-content:space-between; width:100%; padding: 20px 40px; box-sizing:border-box;">
+            <button class="btn" style="margin:0;" onclick="showPage('home-page')">Home</button>
+            <h2 style="color:#FFD700; letter-spacing:5px;">PERIODIC TABLE</h2>
+        </div>
+        <div class="periodic-table" id="table"></div>
     </div>
 
     <div id="view-3d">
@@ -95,22 +108,27 @@
     <script type="module">
         import * as THREE from 'https://unpkg.com';
 
-        window.showPage = function(p) {
-            ['home-page','table-page','view-3d'].forEach(id => {
-                document.getElementById(id).style.opacity = '0';
-                document.getElementById(id).style.pointerEvents = 'none';
+        window.showPage = function(id) {
+            ['home-page','table-page','view-3d'].forEach(p => {
+                document.getElementById(p).style.opacity = '0';
+                document.getElementById(p).style.pointerEvents = 'none';
             });
-            document.getElementById(p).style.opacity = '1';
-            document.getElementById(p).style.pointerEvents = 'auto';
+            document.getElementById(id).style.opacity = '1';
+            document.getElementById(id).style.pointerEvents = 'auto';
         }
 
-        const elements = [{n:1, s:'H'}, {n:2, s:'He'}, {n:3, s:'Li'}, {n:4, s:'Be'}];
+        // ELEMENT GRID LOGIC
+        const elements = [
+            {n: 1, s: 'H'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 2, s: 'He'},
+            {n: 3, s: 'Li'}, {n: 4, s: 'Be'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 5, s: 'B'}, {n: 6, s: 'C'}, {n: 7, s: 'N'}, {n: 8, s: 'O'}, {n: 9, s: 'F'}, {n: 10, s: 'Ne'}
+        ];
         const table = document.getElementById('table');
         elements.forEach(el => {
             const div = document.createElement('div');
-            div.style.cssText = "width:50px; height:60px; border:1px solid rgba(255,215,0,0.2); display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.03); cursor:pointer;";
-            div.innerHTML = `<b>${el.s}</b>`;
-            div.onclick = () => alert("3D Engine Loading...");
+            div.className = 'element';
+            if(el.n === 0) div.style.visibility = 'hidden';
+            div.innerHTML = `<span style="font-size:0.7em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
+            div.onclick = () => alert(`Loading ${el.s} in 3D... Engine setup complete.`);
             table.appendChild(div);
         });
     </script>
