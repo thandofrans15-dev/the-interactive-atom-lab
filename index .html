@@ -8,116 +8,101 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            /* DOMINANT PS3 BLUE GRADIENT (Fades late to Black) */
-            background: radial-gradient(circle at 30% 40%, #4da6ff 0%, #1a3a5c 65%, #000000 100%);
+            /* SUPER DOMINANT BLUE - 75% coverage before fade */
+            background: radial-gradient(circle at 35% 45%, #4da6ff 0%, #4da6ff 50%, #1a3a5c 75%, #000000 100%);
             color: white; overflow-x: hidden;
         }
 
-        #home-page, #table-page, #view-3d {
+        #home-page, #table-page {
             width: 100%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; position: absolute;
             transition: opacity 0.6s ease-in-out;
+            z-index: 1;
         }
 
-        #table-page, #view-3d { opacity: 0; pointer-events: none; }
+        /* Ensuring pages don't block each other */
+        .hidden { opacity: 0 !important; pointer-events: none !important; }
 
-        /* THE BOLD TF LOGO - ENLARGED & CLOSED GAP */
+        /* THE BOLD TF LOGO - NO GAP */
         .tf-logo-container {
-            width: 210px; height: 210px;
+            width: 215px; height: 215px;
             filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
             transform: skewX(-12deg); 
+            margin-bottom: 10px;
         }
 
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 35px;
-            padding: 40px;
-            max-width: 1100px;
-            text-align: center;
-            margin-top: 40px;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 35px; padding: 40px; max-width: 1100px; text-align: center;
         }
-        .info-box h3 { color: #FFD700; margin-bottom: 12px; font-size: 1.1em; letter-spacing: 1px; }
-        .info-box p { font-size: 0.85em; line-height: 1.6; color: rgba(255,255,255,0.8); }
+        .info-box h3 { color: #FFD700; margin-bottom: 10px; font-size: 1.1em; }
+        .info-box p { font-size: 0.85em; line-height: 1.6; color: rgba(255,255,255,0.9); }
 
         .btn {
-            background: rgba(255, 215, 0, 0.05); border: 2px solid #FFD700;
+            background: rgba(255, 215, 0, 0.1); border: 2px solid #FFD700;
             color: #FFD700; padding: 15px 45px; border-radius: 40px;
             cursor: pointer; transition: 0.4s; letter-spacing: 3px;
-            text-transform: uppercase; margin-top: 25px;
+            text-transform: uppercase; z-index: 10; position: relative;
         }
         .btn:hover { background: #FFD700; color: black; box-shadow: 0 0 30px #FFD700; }
 
-        /* PERIODIC TABLE STYLE */
         .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 10px; padding: 40px; }
         .element {
             width: 50px; height: 60px; border: 1px solid rgba(255, 215, 0, 0.2);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: 0.3s;
         }
-        .element:hover { border-color: #FFD700; transform: scale(1.1); background: rgba(255, 215, 0, 0.1); }
+        .element:hover { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
     </style>
 </head>
 <body>
 
+    <!-- HOME PAGE -->
     <div id="home-page">
         <div class="tf-logo-container">
             <svg viewBox="0 0 100 100" xmlns="http://w3.org">
                 <defs><linearGradient id="goldGrad"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FFA500"/></linearGradient></defs>
-                <!-- FIXED LOGO: CLOSED GAP AT BOTTOM -->
-                <rect x="45" y="15" width="10" height="70" rx="2" fill="url(#goldGrad)" />
+                <!-- STEM EXTENDED TO 88 TO OVERLAP CIRCLE PATH (NO GAP) -->
+                <rect x="45" y="15" width="10" height="73" rx="2" fill="url(#goldGrad)" />
                 <rect x="25" y="15" width="50" height="10" rx="2" fill="url(#goldGrad)" />
                 <rect x="45" y="45" width="25" height="10" rx="2" fill="url(#goldGrad)" />
-                <!-- CIRCLE ATTACHED DIRECTLY TO STEM BASE -->
-                <path d="M50,85 C20,85 5,65 5,45 C5,20 25,5 50,5 C75,5 95,20 95,45" fill="none" stroke="url(#goldGrad)" stroke-width="4.5" />
+                <!-- CIRCLE PATH -->
+                <path d="M50,88 C20,88 5,68 5,48 C5,23 25,8 50,8 C75,8 95,23 95,48" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round" />
             </svg>
         </div>
-        <h1 style="letter-spacing: 12px; margin-top: 15px; font-weight: 300;">TF INNOVATIONS</h1>
+        <h1 style="letter-spacing: 12px; margin-bottom: 30px; font-weight: 300;">TF INNOVATIONS</h1>
         
         <div class="info-grid">
-            <div class="info-box">
-                <h3>3D Atom Viewer</h3>
-                <p>An advanced 3D educational tool for visualizing atomic structures and mastering chemical bonding in real-time.</p>
-            </div>
-            <div class="info-box">
-                <h3>Bonding Mode</h3>
-                <p>Utilizing a logic-based system to balance atoms with immediate visual feedback through red and green indicators.</p>
-            </div>
-            <div class="info-box">
-                <h3>AI Tutor</h3>
-                <p>Features an AI-guided learning assistant that provides Socratic hints to help students understand the "why" behind science.</p>
-            </div>
+            <div class="info-box"><h3>3D Atom Viewer</h3><p>An advanced 3D educational tool for visualizing atomic structures and mastering chemical bonding in real-time.</p></div>
+            <div class="info-box"><h3>Bonding Mode</h3><p>Utilizing a logic-based system to balance atoms with immediate visual feedback through red and green indicators.</p></div>
+            <div class="info-box"><h3>AI Tutor</h3><p>Features an AI-guided learning assistant that provides Socratic hints to help students understand the "why" behind science.</p></div>
         </div>
 
-        <button class="btn" onclick="showPage('table-page')">Enter Lab</button>
+        <button class="btn" onclick="goToLab()">Enter Lab</button>
     </div>
 
-    <div id="table-page">
+    <!-- TABLE PAGE -->
+    <div id="table-page" class="hidden">
         <div style="display:flex; justify-content:space-between; width:100%; padding: 20px 40px; box-sizing:border-box;">
-            <button class="btn" style="margin:0;" onclick="showPage('home-page')">Home</button>
+            <button class="btn" style="margin:0;" onclick="goToHome()">Home</button>
             <h2 style="color:#FFD700; letter-spacing:5px;">PERIODIC TABLE</h2>
         </div>
         <div class="periodic-table" id="table"></div>
     </div>
 
-    <div id="view-3d">
-        <button class="btn" style="position: absolute; top: 20px; left: 20px;" onclick="showPage('table-page')">Back to Table</button>
-        <div id="atom-container" style="width: 100%; height: 100%;"></div>
-    </div>
-
-    <script type="module">
-        import * as THREE from 'https://unpkg.com';
-
-        window.showPage = function(id) {
-            ['home-page','table-page','view-3d'].forEach(p => {
-                document.getElementById(p).style.opacity = '0';
-                document.getElementById(p).style.pointerEvents = 'none';
-            });
-            document.getElementById(id).style.opacity = '1';
-            document.getElementById(id).style.pointerEvents = 'auto';
+    <script>
+        // NAVIGATION FUNCTIONS
+        function goToLab() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('table-page').classList.remove('hidden');
         }
 
-        // ELEMENT GRID LOGIC
+        function goToHome() {
+            document.getElementById('table-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+
+        // ELEMENT GRID
         const elements = [
             {n: 1, s: 'H'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 2, s: 'He'},
             {n: 3, s: 'Li'}, {n: 4, s: 'Be'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 5, s: 'B'}, {n: 6, s: 'C'}, {n: 7, s: 'N'}, {n: 8, s: 'O'}, {n: 9, s: 'F'}, {n: 10, s: 'Ne'}
@@ -128,7 +113,6 @@
             div.className = 'element';
             if(el.n === 0) div.style.visibility = 'hidden';
             div.innerHTML = `<span style="font-size:0.7em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
-            div.onclick = () => alert(`Loading ${el.s} in 3D... Engine setup complete.`);
             table.appendChild(div);
         });
     </script>
