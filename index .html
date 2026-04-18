@@ -1,63 +1,94 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TF Interactive Atom Lab</title>
     <style>
-        /* SOFT PS3-INSPIRED GRADIENT (60/40 BLUE TO BLACK) */
-         body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
+        /* THE PS3-INSPIRED GRADIENT BASE */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            /* SMOOTH 60/40 SPLIT: No distinct lines, pure soft fade */
-            background: linear-gradient(to right, #4da6ff 0%, #4da6ff 45%, #000000 85%, #000000 100%);
-            color: white; overflow-x: hidden;
+            background: linear-gradient(90deg, #4da6ff 0%, #4da6ff 60%, #000000 100%);
+            color: white;
+            overflow-x: hidden;
         }
+
         /* NAVIGATION LOGIC */
-        #home-page, #table-page, #view-3d {
-            width: 100%; height: 100%; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; position: absolute;
-            transition: opacity 0.6s ease-in-out;
+        #home-page, #table-page {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            transition: opacity 0.5s ease;
         }
 
-        #table-page, #view-3d { opacity: 0; pointer-events: none; }
+        #table-page { opacity: 0; pointer-events: none; }
 
-        /* THE ORIGINAL SLANTED TF LOGO */
+        /* THE BATARANG TF LOGO */
         .tf-logo-container {
-            width: 200px; height: 200px;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
-            transform: skewX(-12deg); 
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
         }
 
-        /* HOME PAGE INFO SECTION */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            padding: 40px;
-            max-width: 1000px;
-            text-align: center;
+        .batarang-tf {
+            transform: skewX(-10deg); /* The sharp slanted look */
         }
-        .info-box h3 { color: #FFD700; margin-bottom: 10px; }
-        .info-box p { font-size: 0.9em; line-height: 1.6; color: #ccc; }
 
         /* BUTTONS */
         .btn {
-            background: rgba(255, 215, 0, 0.05); border: 2px solid #FFD700;
-            color: #FFD700; padding: 15px 45px; border-radius: 40px;
-            cursor: pointer; transition: 0.4s; letter-spacing: 3px;
-            text-transform: uppercase; margin-top: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
+            color: #FFD700;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
-        .btn:hover { background: #FFD700; color: black; box-shadow: 0 0 30px #FFD700; }
+
+        .btn:hover {
+            background: #FFD700;
+            color: black;
+            box-shadow: 0 0 20px #FFD700;
+        }
 
         /* PERIODIC TABLE GRID */
-        .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 10px; padding: 20px; }
-        .element {
-            width: 50px; height: 60px; border: 1px solid rgba(255, 215, 0, 0.2);
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: 0.3s;
+        .periodic-table {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            gap: 8px;
+            padding: 20px;
         }
-        .element:hover { border-color: #FFD700; transform: scale(1.1); background: rgba(255, 215, 0, 0.1); }
+
+        .element {
+            width: 55px;
+            height: 65px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .element:hover {
+            border-color: #FFD700;
+            transform: scale(1.1);
+            background: rgba(255, 215, 0, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -65,107 +96,53 @@
     <!-- HOME PAGE -->
     <div id="home-page">
         <div class="tf-logo-container">
-            <svg viewBox="0 0 100 100" xmlns="http://w3.org">
+            <svg viewBox="0 0 100 100" class="batarang-tf">
                 <defs>
                     <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" style="stop-color:#FFD700;" />
                         <stop offset="100%" style="stop-color:#FFA500;" />
                     </linearGradient>
                 </defs>
-                <!-- ORIGINAL TF DESIGN WITH SLANT -->
-                <rect x="45" y="15" width="10" height="70" rx="3" fill="url(#goldGrad)" /> <!-- Stem -->
-                <rect x="25" y="15" width="50" height="10" rx="3" fill="url(#goldGrad)" /> <!-- T-Bar -->
-                <rect x="45" y="45" width="25" height="10" rx="3" fill="url(#goldGrad)" /> <!-- F-Bar -->
-                <!-- CIRCLE STEMMING FROM BOTTOM -->
-                <path d="M50,85 C20,85 5,65 5,45 C5,20 25,5 50,5 C75,5 95,20 95,45" 
-                      fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round" />
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#goldGrad)" stroke-width="4" />
+                <rect x="45" y="20" width="10" height="60" fill="url(#goldGrad)" /> <!-- Stem -->
+                <rect x="25" y="20" width="50" height="10" fill="url(#goldGrad)" /> <!-- T-Bar -->
+                <rect x="45" y="45" width="25" height="10" fill="url(#goldGrad)" /> <!-- F-Bar -->
             </svg>
         </div>
-        <h1 style="letter-spacing: 8px;">TF INNOVATIONS</h1>
-        
-        <div class="info-grid">
-            <div class="info-box">
-                <h3>3D Atom Viewer</h3>
-                <p>An advanced 3D educational tool for visualizing atomic structures and mastering chemical bonding in real-time.</p>
-            </div>
-            <div class="info-box">
-                <h3>Bonding Mode</h3>
-                <p>Utilizing a logic-based system to balance atoms with immediate visual feedback through red and green indicators.</p>
-            </div>
-            <div class="info-box">
-                <h3>AI Tutor</h3>
-                <p>Features an AI-guided learning assistant that provides Socratic hints to help students understand the "why" behind science.</p>
-            </div>
-        </div>
-
-        <button class="btn" onclick="showPage('table-page')">Enter Lab</button>
+        <h1>TF INNOVATIONS</h1>
+        <button class="btn" onclick="showTable()">Enter Lab</button>
     </div>
 
-    <!-- TABLE PAGE -->
+    <!-- PERIODIC TABLE PAGE -->
     <div id="table-page">
-        <button class="btn" style="margin-bottom: 20px;" onclick="showPage('home-page')">Home</button>
+        <button class="btn" style="margin-bottom:20px;" onclick="showHome()">Back to Home</button>
         <div class="periodic-table" id="table"></div>
     </div>
 
-    <!-- 3D VIEW OVERLAY -->
-    <div id="view-3d">
-        <button class="btn" style="position: absolute; top: 20px; left: 20px;" onclick="showPage('table-page')">Back to Table</button>
-        <div id="atom-container" style="width: 100%; height: 100%;"></div>
-    </div>
-
-    <script type="module">
-        import * as THREE from 'https://unpkg.com';
-
-        window.showPage = function(pageId) {
-            ['home-page', 'table-page', 'view-3d'].forEach(id => {
-                document.getElementById(id).style.opacity = '0';
-                document.getElementById(id).style.pointerEvents = 'none';
-            });
-            document.getElementById(pageId).style.opacity = '1';
-            document.getElementById(pageId).style.pointerEvents = 'auto';
+    <script>
+        function showTable() {
+            document.getElementById('home-page').style.opacity = '0';
+            document.getElementById('home-page').style.pointerEvents = 'none';
+            document.getElementById('table-page').style.opacity = '1';
+            document.getElementById('table-page').style.pointerEvents = 'auto';
         }
 
-        // ELEMENT DATA
-        const elements = [{n:1, s:'H'}, {n:2, s:'He'}, {n:3, s:'Li'}, {n:4, s:'Be'}, {n:5, s:'B'}, {n:6, s:'C'}];
+        function showHome() {
+            document.getElementById('table-page').style.opacity = '0';
+            document.getElementById('table-page').style.pointerEvents = 'none';
+            document.getElementById('home-page').style.opacity = '1';
+            document.getElementById('home-page').style.pointerEvents = 'auto';
+        }
+
+        // Generate Basic Elements
+        const elements = [{n: 1, s: 'H'}, {n: 2, s: 'He'}];
         const table = document.getElementById('table');
         elements.forEach(el => {
             const div = document.createElement('div');
             div.className = 'element';
-            div.innerHTML = `<span style="font-size:0.7em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
-            div.onclick = () => start3D();
+            div.innerHTML = `<span style="font-size:0.7em;">${el.n}</span><span style="font-weight:bold;">${el.s}</span>`;
             table.appendChild(div);
         });
-
-        // THREE.JS ENGINE SETUP
-        let scene, camera, renderer, sphere;
-        function start3D() {
-            showPage('view-3d');
-            const container = document.getElementById('atom-container');
-            if (renderer) container.removeChild(renderer.domElement);
-
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement);
-
-            const geometry = new THREE.SphereGeometry(1.5, 32, 32);
-            const material = new THREE.MeshPhongMaterial({ color: 0xFFD700, shininess: 100 });
-            sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
-
-            const light = new THREE.PointLight(0xffffff, 50, 100);
-            light.position.set(10, 10, 10);
-            scene.add(light);
-            camera.position.z = 5;
-
-            function animate() {
-                requestAnimationFrame(animate);
-                sphere.rotation.y += 0.01;
-                renderer.render(scene, camera);
-            }
-            animate();
-        }
     </script>
 </body>
 </html>
