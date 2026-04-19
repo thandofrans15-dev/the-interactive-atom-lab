@@ -8,18 +8,17 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            /* NEW PS3 BLUE-TO-WHITE ATMOSPHERE */
+            /* PERFECT BLUE-TO-WHITE ATMOSPHERE */
             background: radial-gradient(circle at 50% -20%, #87ceeb 0%, #b0e0e6 40%, #ffffff 85%);
-            color: #333; overflow: hidden;
+            color: #333; overflow-x: hidden;
         }
 
-        /* NAVIGATION & PAGES */
         #home-page, #table-page {
             width: 100%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; position: absolute;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.8s ease-in-out;
         }
-        .hidden { opacity: 0 !important; pointer-events: none !important; transform: scale(0.9); }
+        .hidden { opacity: 0 !important; pointer-events: none !important; }
 
         /* THE BOLD GOLD LOGO */
         .tf-logo-container {
@@ -28,54 +27,38 @@
             transform: skewX(-12deg); margin-bottom: 10px;
         }
 
-        /* PERIODIC TABLE GRID */
+        /* INFO GRID FROM README */
+        .info-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 35px; padding: 40px; max-width: 1100px; text-align: center;
+        }
+        .info-box h3 { color: #ccac00; margin-bottom: 10px; font-size: 1.1em; }
+        .info-box p { font-size: 0.85em; line-height: 1.6; color: #555; }
+
+        /* PERIODIC TABLE GRID (18 COLUMNS) */
         .periodic-table { 
-            display: grid; grid-template-columns: repeat(18, 1fr); gap: 6px; 
-            padding: 20px; transition: filter 0.5s ease;
+            display: grid; grid-template-columns: repeat(18, 1fr); gap: 4px; 
+            padding: 20px; background: rgba(255,255,255,0.3); border-radius: 15px;
         }
         .element {
-            width: 45px; height: 55px; border: 1px solid rgba(255, 215, 0, 0.6);
+            width: 50px; height: 60px; border: 1px solid rgba(0,0,0,0.1);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.8); cursor: pointer; transition: 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer; transition: 0.3s; font-size: 0.9em;
         }
-        .element:hover { border-color: #FFD700; background: #FFD700; color: white; transform: scale(1.2); z-index: 10; }
+        .element:hover { transform: scale(1.2); z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
 
-        /* THE INSTAGRAM POP-UP OVERLAY */
-        #info-overlay {
-            position: fixed; top:0; left:0; width: 100%; height: 100%;
-            background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
-            display: none; justify-content: center; align-items: center; z-index: 100;
-        }
-
-        .focus-atom {
-            width: 250px; height: 300px; background: white;
-            border: 4px solid #FFD700; border-radius: 20px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 3em; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-
-        /* TILTED INFO PANEL (3D SLIGHT TILT) */
-        .info-panel {
-            position: absolute; left: 10%; width: 300px;
-            background: white; padding: 25px; border-radius: 15px;
-            transform: perspective(1000px) rotateY(15deg);
-            box-shadow: -10px 10px 30px rgba(0,0,0,0.15);
-            border-left: 5px solid #FFD700;
-        }
-
-        /* LABELS & ARROWS */
-        .label-arrow {
-            position: absolute; color: #FFD700; font-weight: bold; font-size: 0.9em;
-            display: flex; align-items: center; gap: 10px; pointer-events: none;
-        }
+        /* COLOR CODING */
+        .noble-gas { background: #e8d0ff; border-left: 4px solid #9b59b6; }
+        .alkali { background: #ffcccb; border-left: 4px solid #e74c3c; }
+        .metal { background: #d0f0ff; border-left: 4px solid #3498db; }
+        .nonmetal { background: #d0ffcf; border-left: 4px solid #2ecc71; }
 
         .btn {
             background: white; border: 2px solid #FFD700; color: #ccac00;
-            padding: 12px 35px; border-radius: 40px; cursor: pointer;
-            transition: 0.3s; font-weight: bold; text-transform: uppercase;
+            padding: 15px 45px; border-radius: 40px; cursor: pointer;
+            transition: 0.4s; font-weight: bold; letter-spacing: 2px;
         }
-        .btn:hover { background: #FFD700; color: white; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
+        .btn:hover { background: #FFD700; color: white; }
     </style>
 </head>
 <body>
@@ -90,67 +73,52 @@
                 <path d="M50,88 C20,88 5,68 5,48 C5,23 25,8 50,8 C75,8 95,23 95,48" fill="none" stroke="url(#goldGrad)" stroke-width="5" />
             </svg>
         </div>
-        <h1 style="letter-spacing: 10px; color: #ccac00;">TF INNOVATIONS</h1>
-        <p style="font-weight: 700; color: #ccac00; letter-spacing: 2px;">INTERACTIVE ATOMIC LABORATORY</p>
+        <h1 style="letter-spacing: 12px; color: #ccac00; margin-bottom: 5px;">TF INNOVATIONS</h1>
+        <p style="letter-spacing: 4px; color: #ccac00; margin-bottom: 40px; font-size: 1.2em; text-transform: uppercase; font-weight: 800;">
+            Interactive Atomic Laboratory & 3D Bonding Simulator
+        </p>
+
+        <div class="info-grid">
+            <div class="info-box"><h3>3D Atom Viewer</h3><p>An advanced 3D educational tool for visualizing atomic structures and mastering chemical bonding in real-time.</p></div>
+            <div class="info-box"><h3>Bonding Mode</h3><p>Utilizing a logic-based system to balance atoms with immediate visual feedback through red and green indicators.</p></div>
+            <div class="info-box"><h3>AI Tutor</h3><p>Features an AI-guided learning assistant that provides Socratic hints to help students understand the "why" behind science.</p></div>
+        </div>
+
         <button class="btn" onclick="goToLab()">Enter Lab</button>
     </div>
 
     <div id="table-page" class="hidden">
-        <button class="btn" style="position:fixed; top:20px; left:20px;" onclick="goToHome()">Home</button>
-        <div class="periodic-table" id="table"></div>
-    </div>
-
-    <!-- THE POP-UP OVERLAY -->
-    <div id="info-overlay" onclick="closeOverlay()">
-        <div class="info-panel" id="panel-text"></div>
-        
-        <div class="focus-atom" id="focused-card">
-            <!-- Label Arrows -->
-            <div class="label-arrow" style="top: -40px;">↑ Atomic Number</div>
-            <div class="label-arrow" style="bottom: -40px;">↓ Atomic Mass</div>
-            <div class="label-arrow" style="right: -140px;">← Element Symbol</div>
-            <div id="atom-content"></div>
+        <div style="display:flex; justify-content:space-between; width:100%; padding: 20px 40px; box-sizing:border-box;">
+            <button class="btn" onclick="goToHome()">Home</button>
+            <h2 style="color:#ccac00; letter-spacing:5px;">PERIODIC TABLE OF ELEMENTS</h2>
         </div>
+        <div class="periodic-table" id="table"></div>
     </div>
 
     <script>
         function goToLab() { document.getElementById('home-page').classList.add('hidden'); document.getElementById('table-page').classList.remove('hidden'); }
         function goToHome() { document.getElementById('table-page').classList.add('hidden'); document.getElementById('home-page').classList.remove('hidden'); }
 
-        const elementsData = [
-            {n: 1, s: 'H', m: 1.008, name: "Hydrogen", use: "Fuel for stars and rockets.", bonds: "Oxygen, Carbon.", compounds: "Water (H2O), Methane (CH4)"},
-            {n: 2, s: 'He', m: 4.002, name: "Helium", use: "Used in balloons and cooling.", bonds: "None (Noble Gas).", compounds: "None."}
-            // Logic can generate the rest or load from JSON later
+        const elements = [
+            {n:1, s:'H', t:'nonmetal'}, {empty:16}, {n:2, s:'He', t:'noble-gas'},
+            {n:3, s:'Li', t:'alkali'}, {n:4, s:'Be', t:'metal'}, {empty:10}, {n:5, s:'B', t:'nonmetal'}, {n:6, s:'C', t:'nonmetal'}, {n:7, s:'N', t:'nonmetal'}, {n:8, s:'O', t:'nonmetal'}, {n:9, s:'F', t:'nonmetal'}, {n:10, s:'Ne', t:'noble-gas'}
         ];
 
         const table = document.getElementById('table');
-        // Fill full 18x7 grid placeholder
-        for(let i=1; i<=126; i++) {
-            const el = elementsData.find(e => e.n === i) || {n: i, s: '?', m: 0};
-            const div = document.createElement('div');
-            div.className = 'element';
-            div.innerHTML = `<span style="font-size:0.6em;">${el.n}</span><b>${el.s}</b>`;
-            div.onclick = (e) => { e.stopPropagation(); showInfo(el); };
-            table.appendChild(div);
-        }
-
-        function showInfo(el) {
-            document.getElementById('info-overlay').style.display = 'flex';
-            document.getElementById('atom-content').innerHTML = `
-                <div style="font-size:0.3em; color:#FFD700; position:absolute; top:10px;">${el.n}</div>
-                ${el.s}
-                <div style="font-size:0.3em; color:#888; position:absolute; bottom:10px;">${el.m}</div>
-            `;
-            document.getElementById('panel-text').innerHTML = `
-                <h2 style="margin:0; color:#FFD700;">${el.name}</h2>
-                <p><b>What it does:</b> ${el.use || 'Commonly used in industrial science.'}</p>
-                <p><b>Bonds with:</b> ${el.bonds || 'Various elements.'}</p>
-                <hr>
-                <p><b>Example Compounds:</b><br>${el.compounds || 'Found in many substances.'}</p>
-            `;
-        }
-
-        function closeOverlay() { document.getElementById('info-overlay').style.display = 'none'; }
+        elements.forEach(el => {
+            if(el.empty) {
+                for(let i=0; i<el.empty; i++) {
+                    const div = document.createElement('div');
+                    div.style.visibility = 'hidden';
+                    table.appendChild(div);
+                }
+            } else {
+                const div = document.createElement('div');
+                div.className = `element ${el.t}`;
+                div.innerHTML = `<span style="font-size:0.6em;">${el.n}</span><b>${el.s}</b>`;
+                table.appendChild(div);
+            }
+        });
     </script>
 </body>
 </html>
