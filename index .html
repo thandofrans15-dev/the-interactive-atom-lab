@@ -59,6 +59,31 @@
             transition: 0.4s; font-weight: bold; letter-spacing: 2px;
         }
         .btn:hover { background: #FFD700; color: white; }
+          /* THE LEGEND (INDEX) */
+        .legend {
+            position: absolute; top: 80px; left: 20px;
+            display: flex; flex-direction: column; gap: 8px;
+            background: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px;
+        }
+        .legend-item { display: flex; align-items: center; gap: 10px; font-size: 0.8em; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* GROUP LABELS & ARROWS */
+        .group-label-container {
+            grid-column: 3 / 13; /* Positions it over the middle gap */
+            display: flex; flex-direction: column; align-items: center;
+            color: #ccac00; font-weight: bold; margin-bottom: 5px;
+        }
+        .arrow-line {
+            width: 100%; height: 2px; background: #ccac00; position: relative; margin-top: 5px;
+        }
+        .arrow-line::before, .arrow-line::after {
+            content: ''; position: absolute; top: -4px;
+            border: 5px solid transparent;
+        }
+        .arrow-line::before { border-right-color: #ccac00; left: 0; }
+        .arrow-line::after { border-left-color: #ccac00; right: 0; }
+
     </style>
 </head>
 <body>
@@ -88,12 +113,28 @@
     </div>
 
     <div id="table-page" class="hidden">
-        <div style="display:flex; justify-content:space-between; width:100%; padding: 20px 40px; box-sizing:border-box;">
-            <button class="btn" onclick="goToHome()">Home</button>
-            <h2 style="color:#ccac00; letter-spacing:5px;">PERIODIC TABLE OF ELEMENTS</h2>
-        </div>
-        <div class="periodic-table" id="table"></div>
+    <!-- 1. CENTERED HEADER & NAV -->
+    <div style="width: 100%; text-align: center; padding: 20px 0;">
+        <button class="btn" style="position: absolute; left: 20px; top: 20px;" onclick="goToHome()">Home</button>
+        <h2 style="color:#ccac00; letter-spacing:5px; margin: 0;">PERIODIC TABLE OF ELEMENTS</h2>
     </div>
+
+    <!-- 2. THE LEGEND -->
+    <div class="legend">
+        <div class="legend-item"><div class="dot" style="background: #ffcccb;"></div> Alkali Metals</div>
+        <div class="legend-item"><div class="dot" style="background: #d0f0ff;"></div> Other Metals</div>
+        <div class="legend-item"><div class="dot" style="background: #d0ffcf;"></div> Non-metals</div>
+        <div class="legend-item"><div class="dot" style="background: #e8d0ff;"></div> Noble Gases</div>
+    </div>
+
+    <!-- 3. THE GRID WITH THE TRANSITION LABEL -->
+    <div class="periodic-table" id="table">
+        <div class="group-label-container">
+            <span>Transition Metals</span>
+            <div class="arrow-line"></div>
+        </div>
+    </div>
+</div>
 
     <script>
         function goToLab() { document.getElementById('home-page').classList.add('hidden'); document.getElementById('table-page').classList.remove('hidden'); }
