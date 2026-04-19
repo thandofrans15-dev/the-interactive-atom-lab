@@ -83,6 +83,16 @@
         }
         .arrow-line::before { border-right-color: #ccac00; left: 0; }
         .arrow-line::after { border-left-color: #ccac00; right: 0; }
+/* COLOR CATEGORIES FROM IMAGE */
+        .alkali { background: #ff9999 !important; border-bottom: 3px solid #e74c3c; }
+        .alkaline-earth { background: #ffdead !important; border-bottom: 3px solid #e67e22; }
+        .transition-metal { background: #add8e6 !important; border-bottom: 3px solid #3498db; }
+        .post-transition { background: #dcdcdc !important; border-bottom: 3px solid #7f8c8d; }
+        .metalloid { background: #f0e68c !important; border-bottom: 3px solid #f1c40f; }
+        .nonmetal { background: #98fb98 !important; border-bottom: 3px solid #2ecc71; }
+        .noble-gas { background: #dda0dd !important; border-bottom: 3px solid #9b59b6; }
+        .lanthanide { background: #afeeee !important; border-bottom: 3px solid #00ced1; }
+        .actinide { background: #98fb98 !important; border-bottom: 3px solid #27ae60; }
 
     </style>
 </head>
@@ -140,10 +150,20 @@
         function goToLab() { document.getElementById('home-page').classList.add('hidden'); document.getElementById('table-page').classList.remove('hidden'); }
         function goToHome() { document.getElementById('table-page').classList.add('hidden'); document.getElementById('home-page').classList.remove('hidden'); }
 
-        const elements = [
-            {n:1, s:'H', t:'nonmetal'}, {empty:16}, {n:2, s:'He', t:'noble-gas'},
-            {n:3, s:'Li', t:'alkali'}, {n:4, s:'Be', t:'metal'}, {empty:10}, {n:5, s:'B', t:'nonmetal'}, {n:6, s:'C', t:'nonmetal'}, {n:7, s:'N', t:'nonmetal'}, {n:8, s:'O', t:'nonmetal'}, {n:9, s:'F', t:'nonmetal'}, {n:10, s:'Ne', t:'noble-gas'}
+            const elements = [
+            // Row 1
+            {n: 1, s: 'H', t: 'nonmetal', m: 1.008}, {empty: 16}, {n: 2, s: 'He', t: 'noble-gas', m: 4.002},
+            // Row 2
+            {n: 3, s: 'Li', t: 'alkali', m: 6.94}, {n: 4, s: 'Be', t: 'alkaline-earth', m: 9.012}, {empty: 10}, 
+            {n: 5, s: 'B', t: 'metalloid', m: 10.81}, {n: 6, s: 'C', t: 'nonmetal', m: 12.01}, {n: 7, s: 'N', t: 'nonmetal', m: 14.00}, 
+            {n: 8, s: 'O', t: 'nonmetal', m: 15.99}, {n: 9, s: 'F', t: 'nonmetal', m: 18.99}, {n: 10, s: 'Ne', t: 'noble-gas', m: 20.17},
+            // Row 3
+            {n: 11, s: 'Na', t: 'alkali', m: 22.98}, {n: 12, s: 'Mg', t: 'alkaline-earth', m: 24.30}, {empty: 10}, 
+            {n: 13, s: 'Al', t: 'post-transition', m: 26.98}, {n: 14, s: 'Si', t: 'metalloid', m: 28.08}, {n: 15, s: 'P', t: 'nonmetal', m: 30.97}, 
+            {n: 16, s: 'S', t: 'nonmetal', m: 32.06}, {n: 17, s: 'Cl', t: 'nonmetal', m: 35.45}, {n: 18, s: 'Ar', t: 'noble-gas', m: 39.94}
+            // (We will add the Transition Metal rows tomorrow!)
         ];
+
 
         const table = document.getElementById('table');
         elements.forEach(el => {
