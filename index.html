@@ -143,75 +143,59 @@
             <span>Transition Metals</span>
             <div class="arrow-line"></div>
         </div>
-    </div>
-</div>
-
+     <!-- THE SCRIPT SECTION (THE BRAINS) -->
     <script>
-        function goToLab() { document.getElementById('home-page').classList.add('hidden'); document.getElementById('table-page').classList.remove('hidden'); }
-        function goToHome() { document.getElementById('table-page').classList.add('hidden'); document.getElementById('home-page').classList.remove('hidden'); }
+        // 1. NAVIGATION
+        window.goToLab = function() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('table-page').classList.remove('hidden');
+        }
 
-            <style>
-    /* UPDATED TILE STYLING FOR A TEXTBOOK LOOK */
-    .element {
-        width: 55px; height: 65px; border: 1px solid rgba(0,0,0,0.15);
-        display: flex; flex-direction: column; align-items: center; justify-content: center;
-        cursor: pointer; transition: 0.3s; font-size: 0.9em; border-radius: 4px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-    }
+        window.goToHome = function() {
+            document.getElementById('table-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
 
-    /* COLOR CODING CATEGORIES */
-    .alkali { background: #ff9999; border-bottom: 4px solid #e74c3c; }
-    .alkaline { background: #ffdead; border-bottom: 4px solid #e67e22; }
-    .transition { background: #add8e6; border-bottom: 4px solid #3498db; }
-    .post-transition { background: #dcdcdc; border-bottom: 4px solid #7f8c8d; }
-    .metalloid { background: #f0e68c; border-bottom: 4px solid #f1c40f; }
-    .nonmetal { background: #98fb98; border-bottom: 4px solid #2ecc71; }
-    .noble-gas { background: #dda0dd; border-bottom: 4px solid #9b59b6; }
-    .lanthanide { background: #afeeee; border-bottom: 4px solid #00ced1; }
-    .actinide { background: #d0ffcf; border-bottom: 4px solid #27ae60; }
-</style>
+        // 2. ELEMENT DATA
+        const elementsData = [
+            {n: 1, s: 'H', m: 1.008, name: "Hydrogen", use: "Rocket fuel", bonds: "Oxygen"},
+            {n: 2, s: 'He', m: 4.002, name: "Helium", use: "Balloons", bonds: "None"},
+            {n: 6, s: 'C', m: 12.01, name: "Carbon", use: "Life", bonds: "Hydrogen"},
+            {n: 8, s: 'O', m: 15.99, name: "Oxygen", use: "Breathing", bonds: "Iron"}
+        ];
 
-<script>
-    // FULL 118 ELEMENT DATASET WITH CATEGORIES
-    const elements = [
-        // Row 1
-        {n: 1, s: 'H', t: 'nonmetal', m: 1.008}, {empty: 16}, {n: 2, s: 'He', t: 'noble-gas', m: 4.002},
-        // Row 2
-        {n: 3, s: 'Li', t: 'alkali', m: 6.94}, {n: 4, s: 'Be', t: 'alkaline', m: 9.012}, {empty: 10}, 
-        {n: 5, s: 'B', t: 'metalloid', m: 10.81}, {n: 6, s: 'C', t: 'nonmetal', m: 12.01}, {n: 7, s: 'N', t: 'nonmetal', m: 14.00}, 
-        {n: 8, s: 'O', t: 'nonmetal', m: 15.99}, {n: 9, s: 'F', t: 'nonmetal', m: 18.99}, {n: 10, s: 'Ne', t: 'noble-gas', m: 20.17},
-        // Row 3
-        {n: 11, s: 'Na', t: 'alkali', m: 22.98}, {n: 12, s: 'Mg', t: 'alkaline', m: 24.30}, {empty: 10}, 
-        {n: 13, s: 'Al', t: 'post-transition', m: 26.98}, {n: 14, s: 'Si', t: 'metalloid', m: 28.08}, {n: 15, s: 'P', t: 'nonmetal', m: 30.97}, 
-        {n: 16, s: 'S', t: 'nonmetal', m: 32.06}, {n: 17, s: 'Cl', t: 'nonmetal', m: 35.45}, {n: 18, s: 'Ar', t: 'noble-gas', m: 39.94},
-        // Row 4 (Transition Metals start here)
-        {n: 19, s: 'K', t: 'alkali', m: 39.09}, {n: 20, s: 'Ca', t: 'alkaline', m: 40.07}, {n: 21, s: 'Sc', t: 'transition', m: 44.95}, 
-        {n: 22, s: 'Ti', t: 'transition', m: 47.86}, {n: 23, s: 'V', t: 'transition', m: 50.94}, {n: 24, s: 'Cr', t: 'transition', m: 51.99},
-        {n: 25, s: 'Mn', t: 'transition', m: 54.93}, {n: 26, s: 'Fe', t: 'transition', m: 55.84}, {n: 27, s: 'Co', t: 'transition', m: 58.93},
-        {n: 28, s: 'Ni', t: 'transition', m: 58.69}, {n: 29, s: 'Cu', t: 'transition', m: 63.54}, {n: 30, s: 'Zn', t: 'transition', m: 65.38},
-        {n: 31, s: 'Ga', t: 'post-transition', m: 69.72}, {n: 32, s: 'Ge', t: 'metalloid', m: 72.63}, {n: 33, s: 'As', t: 'metalloid', m: 74.92},
-        {n: 34, s: 'Se', t: 'nonmetal', m: 78.97}, {n: 35, s: 'Br', t: 'nonmetal', m: 79.90}, {n: 36, s: 'Kr', t: 'noble-gas', m: 83.79}
-        // [Data for all 118 elements would follow this pattern]
-    ];
-</script>
-
-
-
+        // 3. THE LOOP (BUILDS THE TABLE)
         const table = document.getElementById('table');
-        elements.forEach(el => {
-            if(el.empty) {
-                for(let i=0; i<el.empty; i++) {
-                    const div = document.createElement('div');
-                    div.style.visibility = 'hidden';
-                    table.appendChild(div);
-                }
-            } else {
+        if (table) {
+            for(let i=1; i<=118; i++) {
+                const el = elementsData.find(e => e.n === i) || {n: i, s: '?', m: '0.00', name: 'Unknown'};
                 const div = document.createElement('div');
-                div.className = `element ${el.t}`;
-                div.innerHTML = `<span style="font-size:0.6em;">${el.n}</span><b>${el.s}</b>`;
+                div.className = 'element';
+                div.innerHTML = `<span style="font-size:0.6em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
+                div.onclick = (e) => { e.stopPropagation(); showInfo(el); };
                 table.appendChild(div);
             }
-        });
+        }
+
+        // 4. THE POP-UP LOGIC
+        function showInfo(el) {
+            document.getElementById('info-overlay').style.display = 'flex';
+            document.getElementById('atom-content').innerHTML = `
+                <div style="font-size:0.2em; position:absolute; top:20px;">${el.n}</div>
+                ${el.s}
+                <div style="font-size:0.2em; position:absolute; bottom:20px; color:white;">${el.m}</div>
+            `;
+            document.getElementById('panel-text').innerHTML = `
+                <h2 style="margin:0; color:#FFD700;">${el.name}</h2>
+                <hr style="border:1px solid #FFD700; margin:15px 0;">
+                <p><b>USE:</b> ${el.use}</p>
+                <p><b>BONDS:</b> ${el.bonds}</p>
+            `;
+        }
+
+        window.closeOverlay = function() {
+            document.getElementById('info-overlay').style.display = 'none';
+        }
     </script>
 </body>
 </html>
