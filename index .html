@@ -8,118 +8,149 @@
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
             font-family: 'Segoe UI', sans-serif;
-            /* SUPER DOMINANT BLUE - 75% coverage before fade */
-            background: radial-gradient(circle at 35% 45%, #4da6ff 0%, #4da6ff 50%, #1a3a5c 75%, #000000 100%);
-            color: white; overflow-x: hidden;
+            /* NEW PS3 BLUE-TO-WHITE ATMOSPHERE */
+            background: radial-gradient(circle at 50% -20%, #87ceeb 0%, #b0e0e6 40%, #ffffff 85%);
+            color: #333; overflow: hidden;
         }
 
+        /* NAVIGATION & PAGES */
         #home-page, #table-page {
             width: 100%; height: 100%; display: flex; flex-direction: column;
             justify-content: center; align-items: center; position: absolute;
-            transition: opacity 0.6s ease-in-out;
-            z-index: 1;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .hidden { opacity: 0 !important; pointer-events: none !important; transform: scale(0.9); }
 
-        /* Ensuring pages don't block each other */
-        .hidden { opacity: 0 !important; pointer-events: none !important; }
-
-        /* THE BOLD TF LOGO - NO GAP */
+        /* THE BOLD GOLD LOGO */
         .tf-logo-container {
             width: 215px; height: 215px;
-            filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
-            transform: skewX(-12deg); 
-            margin-bottom: 10px;
+            filter: drop-shadow(0 10px 20px rgba(255, 215, 0, 0.5));
+            transform: skewX(-12deg); margin-bottom: 10px;
         }
 
-        .info-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 35px; padding: 40px; max-width: 1100px; text-align: center;
+        /* PERIODIC TABLE GRID */
+        .periodic-table { 
+            display: grid; grid-template-columns: repeat(18, 1fr); gap: 6px; 
+            padding: 20px; transition: filter 0.5s ease;
         }
-        .info-box h3 { color: #FFD700; margin-bottom: 10px; font-size: 1.1em; }
-        .info-box p { font-size: 0.85em; line-height: 1.6; color: rgba(255,255,255,0.9); }
+        .element {
+            width: 45px; height: 55px; border: 1px solid rgba(255, 215, 0, 0.6);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255, 255, 255, 0.8); cursor: pointer; transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .element:hover { border-color: #FFD700; background: #FFD700; color: white; transform: scale(1.2); z-index: 10; }
+
+        /* THE INSTAGRAM POP-UP OVERLAY */
+        #info-overlay {
+            position: fixed; top:0; left:0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center; z-index: 100;
+        }
+
+        .focus-atom {
+            width: 250px; height: 300px; background: white;
+            border: 4px solid #FFD700; border-radius: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 3em; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        /* TILTED INFO PANEL (3D SLIGHT TILT) */
+        .info-panel {
+            position: absolute; left: 10%; width: 300px;
+            background: white; padding: 25px; border-radius: 15px;
+            transform: perspective(1000px) rotateY(15deg);
+            box-shadow: -10px 10px 30px rgba(0,0,0,0.15);
+            border-left: 5px solid #FFD700;
+        }
+
+        /* LABELS & ARROWS */
+        .label-arrow {
+            position: absolute; color: #FFD700; font-weight: bold; font-size: 0.9em;
+            display: flex; align-items: center; gap: 10px; pointer-events: none;
+        }
 
         .btn {
-            background: rgba(255, 215, 0, 0.1); border: 2px solid #FFD700;
-            color: #FFD700; padding: 15px 45px; border-radius: 40px;
-            cursor: pointer; transition: 0.4s; letter-spacing: 3px;
-            text-transform: uppercase; z-index: 10; position: relative;
+            background: white; border: 2px solid #FFD700; color: #ccac00;
+            padding: 12px 35px; border-radius: 40px; cursor: pointer;
+            transition: 0.3s; font-weight: bold; text-transform: uppercase;
         }
-        .btn:hover { background: #FFD700; color: black; box-shadow: 0 0 30px #FFD700; }
-
-        .periodic-table { display: grid; grid-template-columns: repeat(18, 1fr); gap: 10px; padding: 40px; }
-        .element {
-            width: 50px; height: 60px; border: 1px solid rgba(255, 215, 0, 0.2);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(255, 255, 255, 0.03); cursor: pointer; transition: 0.3s;
-        }
-        .element:hover { border-color: #FFD700; background: rgba(255, 215, 0, 0.15); }
+        .btn:hover { background: #FFD700; color: white; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4); }
     </style>
 </head>
 <body>
 
-    <!-- HOME PAGE -->
     <div id="home-page">
         <div class="tf-logo-container">
             <svg viewBox="0 0 100 100" xmlns="http://w3.org">
                 <defs><linearGradient id="goldGrad"><stop offset="0%" stop-color="#FFD700"/><stop offset="100%" stop-color="#FFA500"/></linearGradient></defs>
-                <!-- STEM EXTENDED TO 88 TO OVERLAP CIRCLE PATH (NO GAP) -->
                 <rect x="45" y="15" width="10" height="73" rx="2" fill="url(#goldGrad)" />
                 <rect x="25" y="15" width="50" height="10" rx="2" fill="url(#goldGrad)" />
                 <rect x="45" y="45" width="25" height="10" rx="2" fill="url(#goldGrad)" />
-                <!-- CIRCLE PATH -->
-                <path d="M50,88 C20,88 5,68 5,48 C5,23 25,8 50,8 C75,8 95,23 95,48" fill="none" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round" />
+                <path d="M50,88 C20,88 5,68 5,48 C5,23 25,8 50,8 C75,8 95,23 95,48" fill="none" stroke="url(#goldGrad)" stroke-width="5" />
             </svg>
         </div>
-       <h1 style="letter-spacing: 12px; margin-bottom: 5px; font-weight: 300;">TF INNOVATIONS</h1>
-<!-- THICKER, MORE VISIBLE SUB-HEADER -->
-<p style="letter-spacing: 4px; color: #FFD700; margin-bottom: 40px; font-size: 1.1em; text-transform: uppercase; font-weight: 700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);">
-    Interactive Atomic Laboratory & 3D Bonding Simulator
-</p>
-
-        
-        <div class="info-grid">
-            <div class="info-box"><h3>3D Atom Viewer</h3><p>An advanced 3D educational tool for visualizing atomic structures and mastering chemical bonding in real-time.</p></div>
-            <div class="info-box"><h3>Bonding Mode</h3><p>Utilizing a logic-based system to balance atoms with immediate visual feedback through red and green indicators.</p></div>
-            <div class="info-box"><h3>AI Tutor</h3><p>Features an AI-guided learning assistant that provides Socratic hints to help students understand the "why" behind science.</p></div>
-        </div>
-
+        <h1 style="letter-spacing: 10px; color: #ccac00;">TF INNOVATIONS</h1>
+        <p style="font-weight: 700; color: #ccac00; letter-spacing: 2px;">INTERACTIVE ATOMIC LABORATORY</p>
         <button class="btn" onclick="goToLab()">Enter Lab</button>
     </div>
 
-    <!-- TABLE PAGE -->
     <div id="table-page" class="hidden">
-        <div style="display:flex; justify-content:space-between; width:100%; padding: 20px 40px; box-sizing:border-box;">
-            <button class="btn" style="margin:0;" onclick="goToHome()">Home</button>
-            <h2 style="color:#FFD700; letter-spacing:5px;">PERIODIC TABLE</h2>
-        </div>
+        <button class="btn" style="position:fixed; top:20px; left:20px;" onclick="goToHome()">Home</button>
         <div class="periodic-table" id="table"></div>
     </div>
 
+    <!-- THE POP-UP OVERLAY -->
+    <div id="info-overlay" onclick="closeOverlay()">
+        <div class="info-panel" id="panel-text"></div>
+        
+        <div class="focus-atom" id="focused-card">
+            <!-- Label Arrows -->
+            <div class="label-arrow" style="top: -40px;">↑ Atomic Number</div>
+            <div class="label-arrow" style="bottom: -40px;">↓ Atomic Mass</div>
+            <div class="label-arrow" style="right: -140px;">← Element Symbol</div>
+            <div id="atom-content"></div>
+        </div>
+    </div>
+
     <script>
-        // NAVIGATION FUNCTIONS
-        function goToLab() {
-            document.getElementById('home-page').classList.add('hidden');
-            document.getElementById('table-page').classList.remove('hidden');
-        }
+        function goToLab() { document.getElementById('home-page').classList.add('hidden'); document.getElementById('table-page').classList.remove('hidden'); }
+        function goToHome() { document.getElementById('table-page').classList.add('hidden'); document.getElementById('home-page').classList.remove('hidden'); }
 
-        function goToHome() {
-            document.getElementById('table-page').classList.add('hidden');
-            document.getElementById('home-page').classList.remove('hidden');
-        }
-
-        // ELEMENT GRID
-        const elements = [
-            {n: 1, s: 'H'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 2, s: 'He'},
-            {n: 3, s: 'Li'}, {n: 4, s: 'Be'}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 0, s: ''}, {n: 5, s: 'B'}, {n: 6, s: 'C'}, {n: 7, s: 'N'}, {n: 8, s: 'O'}, {n: 9, s: 'F'}, {n: 10, s: 'Ne'}
+        const elementsData = [
+            {n: 1, s: 'H', m: 1.008, name: "Hydrogen", use: "Fuel for stars and rockets.", bonds: "Oxygen, Carbon.", compounds: "Water (H2O), Methane (CH4)"},
+            {n: 2, s: 'He', m: 4.002, name: "Helium", use: "Used in balloons and cooling.", bonds: "None (Noble Gas).", compounds: "None."}
+            // Logic can generate the rest or load from JSON later
         ];
+
         const table = document.getElementById('table');
-        elements.forEach(el => {
+        // Fill full 18x7 grid placeholder
+        for(let i=1; i<=126; i++) {
+            const el = elementsData.find(e => e.n === i) || {n: i, s: '?', m: 0};
             const div = document.createElement('div');
             div.className = 'element';
-            if(el.n === 0) div.style.visibility = 'hidden';
-            div.innerHTML = `<span style="font-size:0.7em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
+            div.innerHTML = `<span style="font-size:0.6em;">${el.n}</span><b>${el.s}</b>`;
+            div.onclick = (e) => { e.stopPropagation(); showInfo(el); };
             table.appendChild(div);
-        });
+        }
+
+        function showInfo(el) {
+            document.getElementById('info-overlay').style.display = 'flex';
+            document.getElementById('atom-content').innerHTML = `
+                <div style="font-size:0.3em; color:#FFD700; position:absolute; top:10px;">${el.n}</div>
+                ${el.s}
+                <div style="font-size:0.3em; color:#888; position:absolute; bottom:10px;">${el.m}</div>
+            `;
+            document.getElementById('panel-text').innerHTML = `
+                <h2 style="margin:0; color:#FFD700;">${el.name}</h2>
+                <p><b>What it does:</b> ${el.use || 'Commonly used in industrial science.'}</p>
+                <p><b>Bonds with:</b> ${el.bonds || 'Various elements.'}</p>
+                <hr>
+                <p><b>Example Compounds:</b><br>${el.compounds || 'Found in many substances.'}</p>
+            `;
+        }
+
+        function closeOverlay() { document.getElementById('info-overlay').style.display = 'none'; }
     </script>
 </body>
 </html>
