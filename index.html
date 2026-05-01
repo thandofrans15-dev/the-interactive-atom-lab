@@ -144,54 +144,58 @@
             <div class="arrow-line"></div>
         </div>
      <!-- THE SCRIPT SECTION (THE BRAINS) -->
-   <script>
-        // 1. GLOBAL NAVIGATION (Works every time)
-       window.goToLab = function() {
-            const home = document.getElementById('home-page');
-            const table = document.getElementById('table-page');
-            if (home && table) {
-                home.classList.add('hidden');
-                table.classList.remove('hidden');
-            }
-        };
-
+    <script>
+        // 1. NAVIGATION
+        window.goToLab = function() {
+            document.getElementById('home-page').classList.add('hidden');
+            document.getElementById('table-page').classList.remove('hidden');
+        }
 
         window.goToHome = function() {
-            const home = document.getElementById('home-page');
-            const table = document.getElementById('table-page');
-            if (home && table) {
-                table.classList.add('hidden');
-                home.classList.remove('hidden');
+            document.getElementById('table-page').classList.add('hidden');
+            document.getElementById('home-page').classList.remove('hidden');
+        }
+
+        // 2. ELEMENT DATA
+        const elementsData = [
+            {n: 1, s: 'H', m: 1.008, name: "Hydrogen", use: "Rocket fuel", bonds: "Oxygen"},
+            {n: 2, s: 'He', m: 4.002, name: "Helium", use: "Balloons", bonds: "None"},
+            {n: 6, s: 'C', m: 12.01, name: "Carbon", use: "Life", bonds: "Hydrogen"},
+            {n: 8, s: 'O', m: 15.99, name: "Oxygen", use: "Breathing", bonds: "Iron"}
+        ];
+
+        // 3. THE LOOP (BUILDS THE TABLE)
+        const table = document.getElementById('table');
+        if (table) {
+            for(let i=1; i<=118; i++) {
+                const el = elementsData.find(e => e.n === i) || {n: i, s: '?', m: '0.00', name: 'Unknown'};
+                const div = document.createElement('div');
+                div.className = 'element';
+                div.innerHTML = `<span style="font-size:0.6em; color:#FFD700;">${el.n}</span><b>${el.s}</b>`;
+                div.onclick = (e) => { e.stopPropagation(); showInfo(el); };
+                table.appendChild(div);
             }
-        };
+        }
+
+        // 4. THE POP-UP LOGIC
+        function showInfo(el) {
+            document.getElementById('info-overlay').style.display = 'flex';
+            document.getElementById('atom-content').innerHTML = `
+                <div style="font-size:0.2em; position:absolute; top:20px;">${el.n}</div>
+                ${el.s}
+                <div style="font-size:0.2em; position:absolute; bottom:20px; color:white;">${el.m}</div>
+            `;
+            document.getElementById('panel-text').innerHTML = `
+                <h2 style="margin:0; color:#FFD700;">${el.name}</h2>
+                <hr style="border:1px solid #FFD700; margin:15px 0;">
+                <p><b>USE:</b> ${el.use}</p>
+                <p><b>BONDS:</b> ${el.bonds}</p>
+            `;
+        }
 
         window.closeOverlay = function() {
-            const overlay = document.getElementById('info-overlay');
-            if (overlay) overlay.style.display = 'none';
-        };
-
-    // 2. THE SCIENTIFIC DATA
-        const elementsData = [
-            {n:1, s:'H', m:1.008, name:'Hydrogen', t:'nonmetal'}, {empty:16}, {n:2, s:'He', m:4.002, name:'Helium', t:'noble-gas'},
-            {n:3, s:'Li', m:6.941, name:'Lithium', t:'alkali'}, {n:4, s:'Be', m:9.012, name:'Beryllium', t:'alkaline'}, {empty:10}, 
-            {n:5, s:'B', m:10.81, name:'Boron', t:'metalloid'}, {n:6, s:'C', m:12.01, name:'Carbon', t:'nonmetal'}, {n:7, s:'N', m:14.00, name:'Nitrogen', t:'nonmetal'}, 
-            {n:8, s:'O', m:15.99, name:'Oxygen', t:'nonmetal'}, {n:9, s:'F', t:'nonmetal', m:18.99}, {n:10, s:'Ne', t:'noble-gas', m:20.17}
-        ];
- // Row 3
-    {n:11, s:'Na', m:22.99, name:'Sodium', t:'alkali'}, {n:12, s:'Mg', m:24.31, name:'Magnesium', t:'alkaline'}, {empty:10}, 
-    {n:13, s:'Al', m:26.98, name:'Aluminum', t:'post-transition'}, {n:14, s:'Si', m:28.09, name:'Silicon', t:'metalloid'}, 
-    {n:15, s:'P', m:30.97, name:'Phosphorus', t:'nonmetal'}, {n:16, s:'S', m:32.06, name:'Sulfur', t:'nonmetal'}, 
-    {n:17, s:'Cl', m:35.45, name:'Chlorine', t:'nonmetal'}, {n:18, s:'Ar', m:39.95, name:'Argon', t:'noble-gas'},
-    // Row 4 (Transition Metals Start)
-    {n:19, s:'K', m:39.10, name:'Potassium', t:'alkali'}, {n:20, s:'Ca', m:40.08, name:'Calcium', t:'alkaline'}, 
-    {n:21, s:'Sc', m:44.96, name:'Scandium', t:'transition'}, {n:22, s:'Ti', m:47.87, name:'Titanium', t:'transition'},
-    {n:23, s:'V', m:50.94, name:'Vanadium', t:'transition'}, {n:24, s:'Cr', m:52.00, name:'Chromium', t:'transition'},
-    {n:25, s:'Mn', m:54.94, name:'Manganese', t:'transition'}, {n:26, s:'Fe', m:55.85, name:'Iron', t:'transition'},
-    {n:27, s:'Co', m:58.93, name:'Cobalt', t:'transition'}, {n:28, s:'Ni', m:58.69, name:'Nickel', t:'transition'},
-    {n:29, s:'Cu', m:63.55, name:'Copper', t:'transition'}, {n:30, s:'Zn', m:65.38, name:'Zinc', t:'transition'},
-    {n:31, s:'Ga', m:69.72, name:'Gallium', t:'post-transition'}, {n:32, s:'Ge', m:72.63, name:'Germanium', t:'metalloid'},
-    {n:33, s:'As', m:74.92, name:'Arsenic', t:'metalloid'}, {n:34, s:'Se', m:78.97, name:'Selenium', t:'nonmetal'},
-    {n:35, s:'Br', m:79.90, name:'Bromine', t:'nonmetal'}, {n:36, s:'Kr', m:83.80, name:'Krypton', t:'noble-gas'}
-   </script>
+            document.getElementById('info-overlay').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
