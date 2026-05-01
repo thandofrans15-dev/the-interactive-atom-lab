@@ -146,15 +146,15 @@
      <!-- THE SCRIPT SECTION (THE BRAINS) -->
    <script>
         // 1. GLOBAL NAVIGATION (Works every time)
-        window.goToLab = function() {
+       window.goToLab = function() {
             const home = document.getElementById('home-page');
             const table = document.getElementById('table-page');
             if (home && table) {
                 home.classList.add('hidden');
                 table.classList.remove('hidden');
-                console.log("Entering Lab...");
             }
         };
+
 
         window.goToHome = function() {
             const home = document.getElementById('home-page');
